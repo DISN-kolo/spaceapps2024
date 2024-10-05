@@ -1,8 +1,12 @@
 extends Node3D
 
 var newCoords : Vector3
-var newMagn : float
 var tempCoords : Vector3
+
+var newMagn : float
+var brightness : float
+
+const CUTOFF_SCALE : float = 0.01
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,23 +18,31 @@ func _process(delta: float) -> void:
 
 func	set_star_size(size: float) -> void:
 	self.scale = Vector3(size, size, 1.0)
+	if self.scale.x < CUTOFF_SCALE:
+		self.visible = false
+	else:
+		self.visible = true
 
 # keep in mind: unless specified otherwise, the magnitude of a star is the relative
 # magnitude as seen from earth
 #
 # https://www.phys.ksu.edu/personal/wysin/astro/magnitudes.html
+# and
+# https://www.gaia.ac.uk/sites/default/files/resources/Calculating_Magnitudes.pdf
 func _setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude: float) -> void:
 	if (abs(pov.x) > 0.0001 or abs(pov.y) > 0.0001 or abs(pov.z) > 0.0001):
 		newCoords = calculate_relative_coords(calculate_absolute_coords(relativeCoords) + pov)
-		newMagn = magnitude - 2.5 * log ((10e2 / relativeCoords.x )**2)/log(10) # absoulte (fyi there was a /10 but i shortened the e3 to e2 instead)
-		newMagn = - newMagn + 2.5 * log ((10e2 / newCoords.x )**2)/log(10) # extract relative from the formula, and pass on new coords and values
+		newMagn = magnitude + 5 - 5 * log ((10e3 / relativeCoords.x )**2)/log(10) # absoulte
+		newMagn = newMagn - 5 + 5 * log ((10e3 / newCoords.x )**2)/log(10) # extract relative 5from the formula, and pass on new coords and values
 	else:
 		newCoords = relativeCoords
-		newCoords.x = 10e3 / newCoords.x
 		newMagn = magnitude
 	#newMagn = magnitude
+	#if (10e3 / newCoords.x < 12):
+		#print("star with magn ", magnitude, " has its new magn at ", newMagn, " while being ", 10e3 / newCoords.x, " AUs far away")
 	tempCoords = sphere_project(newCoords, radius)
-	set_star_size(1 / newMagn)
+	brightness = 10 ** (newMagn / (-2.5))
+	set_star_size(sqrt(brightness))
 
 # https://math.libretexts.org/Courses/Monroe_Community_College/MTH_212_Calculus_III/Chapter_11%3A_Vectors_and_the_Geometry_of_Space/11.7%3A_Cylindrical_and_Spherical_Coordinates
 func calculate_absolute_coords(inp: Vector3) -> Vector3:

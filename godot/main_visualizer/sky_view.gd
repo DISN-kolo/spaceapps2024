@@ -44,8 +44,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
-		gloablSpectatorPos += Vector3(50, 0, 0)
+	if Input.is_action_pressed("ui_accept"):
+		gloablSpectatorPos += Vector3(delta*100, 0, 0)
 		redraw()
 	pass
 
