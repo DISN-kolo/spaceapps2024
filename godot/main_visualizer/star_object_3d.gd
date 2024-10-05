@@ -2,11 +2,11 @@ extends Node3D
 
 var newCoords : Vector3
 var newMagn : float
+var tempCoords : Vector3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	set_global_position(tempCoords)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -19,7 +19,7 @@ func	set_star_size(size: float) -> void:
 # magnitude as seen from earth
 #
 # https://www.phys.ksu.edu/personal/wysin/astro/magnitudes.html
-func setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude: float) -> void:
+func _setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude: float) -> void:
 	if (abs(pov.x) > 0.0001 or abs(pov.y) > 0.0001 or abs(pov.z) > 0.0001):
 		newCoords = calculate_relative_coords(calculate_absolute_coords(relativeCoords) + pov)
 		newMagn = magnitude - 2.5 * log ((10e2 / relativeCoords.x ) ** 2) # absoulte (fyi there was a /10 but i shortened the e3 to e2 instead)
@@ -28,7 +28,7 @@ func setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude:
 		newCoords = relativeCoords
 		newCoords.x = 10e3 / newCoords.x
 		newMagn = magnitude
-	self.set_global_position(sphere_project(newCoords, radius))
+	tempCoords = sphere_project(newCoords, radius)
 	set_star_size(1 / newMagn)
 
 # https://math.libretexts.org/Courses/Monroe_Community_College/MTH_212_Calculus_III/Chapter_11%3A_Vectors_and_the_Geometry_of_Space/11.7%3A_Cylindrical_and_Spherical_Coordinates

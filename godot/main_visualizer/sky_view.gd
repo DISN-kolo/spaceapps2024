@@ -23,12 +23,14 @@ func _ready() -> void:
 	# so, to map, we need to take the canvas, divide it by the appropriate mix and max values of
 	# ra and dec and then multiply it by the actual ra/dec.
 	for coords in data["data"]:
+		print(coords)
 		instance = starnode.instantiate()
 		# the last parameter being parallax is temporary (the higher the parallax,
 		# the closer the star, the lesser the magnitude)
-		instance.setup_star(gloablSpectatorPos,
+		instance._setup_star(gloablSpectatorPos,
 			Vector3(coords[0], coords[1], coords[2]), radius, 1000/coords[0])
 		add_child(instance)
+		print("done!\n\n")
 
 
 
@@ -48,6 +50,6 @@ func redraw() -> void:
 		instance = starnode.instantiate()
 		# the last parameter being parallax is temporary (the higher the parallax,
 		# the closer the star, the lesser the magnitude)
-		instance.setup_star(gloablSpectatorPos,
+		instance._setup_star(gloablSpectatorPos,
 			Vector3(coords[0], coords[1], coords[2]), radius, 1000/coords[0])
 		add_child(instance)
