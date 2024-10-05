@@ -24,11 +24,30 @@ func _ready() -> void:
 	# ra and dec and then multiply it by the actual ra/dec.
 	for coords in data["data"]:
 		instance = starnode.instantiate()
-		instance.setup_star(gloablSpectatorPos, Vector3(coords[0], coords[1], coords[2]), radius)
+		# the last parameter being parallax is temporary (the higher the parallax,
+		# the closer the star, the lesser the magnitude)
+		instance.setup_star(gloablSpectatorPos,
+			Vector3(coords[0], coords[1], coords[2]), radius, 1000/coords[0])
 		add_child(instance)
 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_accept"):
+		gloablSpectatorPos += Vector3(50, 0, 0)
+		redraw()
 	pass
+
+func redraw() -> void:
+	for childnode in get_children():
+		if is_instance_valid(childnode) and childnode.is_in_group("star"):
+			#print("just killed a node")
+			childnode.queue_free()
+	for coords in data["data"]:
+		instance = starnode.instantiate()
+		# the last parameter being parallax is temporary (the higher the parallax,
+		# the closer the star, the lesser the magnitude)
+		instance.setup_star(gloablSpectatorPos,
+			Vector3(coords[0], coords[1], coords[2]), radius, 1000/coords[0])
+		add_child(instance)
