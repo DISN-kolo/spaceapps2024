@@ -10,3 +10,15 @@ script = ExtResource("1_513ky")
 script = ExtResource("1_xjqyi")
 
 [node name="Camera3D" type="Camera3D" parent="Node3D"]
+
+[node name="Control" type="Control" parent="Node3D/Camera3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 102.0
+offset_bottom = 62.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Node3D/Camera3D/Control"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 266.0
+offset_bottom = 127.0

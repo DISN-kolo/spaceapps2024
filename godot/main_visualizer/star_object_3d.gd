@@ -8,6 +8,9 @@ var brightness : float
 
 const CUTOFF_SCALE : float = 0.01
 
+const LOG10 : float = 2.302585
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_global_position(tempCoords)
@@ -32,8 +35,10 @@ func	set_star_size(size: float) -> void:
 func _setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude: float) -> void:
 	if (abs(pov.x) > 0.0001 or abs(pov.y) > 0.0001 or abs(pov.z) > 0.0001):
 		newCoords = calculate_relative_coords(calculate_absolute_coords(relativeCoords) + pov)
-		newMagn = magnitude + 5 - 5 * log ((10e3 / relativeCoords.x )**2)/log(10) # absoulte
-		newMagn = newMagn - 5 + 5 * log ((10e3 / newCoords.x )**2)/log(10) # extract relative 5from the formula, and pass on new coords and values
+		#newCoords = Vector3(10e3 / 1403947389, 250.4208, 36.4597)
+		newMagn = magnitude + 5 - 5 * log ((10e3 / relativeCoords.x )**2)/LOG10 # absoulte
+		newMagn = newMagn - 5 + 5 * log ((10e3 / newCoords.x )**2)/LOG10 # extract relative 5from the formula, and pass on new coords and values
+		#newMagn = newMagn - 5 + 5 * log ((1403947389)**2)/LOG10 # extract relative 5from the formula, and pass on new coords and values
 	else:
 		newCoords = relativeCoords
 		newMagn = magnitude
@@ -95,3 +100,6 @@ func sphere_project(inp: Vector3, radius: float) -> Vector3:
 	y = p * sin(deg_to_rad(90 - dec)) * sin(deg_to_rad(ra))
 	z = p * cos(deg_to_rad(90 - dec))
 	return (Vector3(x, y, z))
+
+func set_red():
+	$Sprite3D.modulate = Color(1, 0, 0, 1)

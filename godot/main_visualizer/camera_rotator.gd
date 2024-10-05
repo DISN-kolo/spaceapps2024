@@ -8,7 +8,7 @@ var clickHeld : bool = false
 
 var desiredFov : float = 90
 const FOV_MIN = 10.0
-const FOV_MAX = 90.0
+const FOV_MAX = 120.0
 const ZOOM_FACTOR = 1.1
 
 # Called when the node enters the scene tree for the first time.
@@ -24,6 +24,11 @@ func _unhandled_input(event):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Camera3D/Control/RichTextLabel.text = "Looking at\n" + \
+	str(camera.rotation_degrees.x) + \
+	"\n" + str(rotation_degrees.y) + \
+	"\nFOV: " + str(camera.get_fov())
+	
 	if Input.is_action_just_pressed("LMB"):
 		clickHeld = true
 	if Input.is_action_just_released("LMB"):
