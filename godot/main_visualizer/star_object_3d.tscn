@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c32vyt5lw5oi3"]
+
+[ext_resource type="Script" path="res://star_object_3d.gd" id="1_dcg71"]
+[ext_resource type="Texture2D" uid="uid://ctoi0hd23g73" path="res://StarGradient.tres" id="1_t7s2y"]
+
+[node name="star_object_3d" type="Node3D"]
+script = ExtResource("1_dcg71")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("1_t7s2y")
