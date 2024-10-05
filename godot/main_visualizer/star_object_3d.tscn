@@ -7,4 +7,5 @@
 script = ExtResource("1_dcg71")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
 texture = ExtResource("1_t7s2y")
