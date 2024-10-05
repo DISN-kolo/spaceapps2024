@@ -22,12 +22,13 @@ func	set_star_size(size: float) -> void:
 func _setup_star(pov: Vector3, relativeCoords: Vector3, radius: float, magnitude: float) -> void:
 	if (abs(pov.x) > 0.0001 or abs(pov.y) > 0.0001 or abs(pov.z) > 0.0001):
 		newCoords = calculate_relative_coords(calculate_absolute_coords(relativeCoords) + pov)
-		newMagn = magnitude - 2.5 * log ((10e2 / relativeCoords.x ) ** 2) # absoulte (fyi there was a /10 but i shortened the e3 to e2 instead)
-		newMagn = - newMagn + 2.5 * log ((10e2 / newCoords.x ) ** 2) # extract relative from the formula, and pass on new coords and values
+		newMagn = magnitude - 2.5 * log ((10e2 / relativeCoords.x )**2)/log(10) # absoulte (fyi there was a /10 but i shortened the e3 to e2 instead)
+		newMagn = - newMagn + 2.5 * log ((10e2 / newCoords.x )**2)/log(10) # extract relative from the formula, and pass on new coords and values
 	else:
 		newCoords = relativeCoords
 		newCoords.x = 10e3 / newCoords.x
 		newMagn = magnitude
+	#newMagn = magnitude
 	tempCoords = sphere_project(newCoords, radius)
 	set_star_size(1 / newMagn)
 
@@ -64,7 +65,7 @@ func calculate_relative_coords(inp: Vector3) -> Vector3:
 	elif (z < 0):
 		ra += 360
 	dec = rad_to_deg(asin(y/p))
-	print(y/p, " ", ra, " ", dec)
+	#print(y/p, " ", ra, " ", dec)
 	p = 10e3 / p
 	return (Vector3(p, ra, dec))
 
