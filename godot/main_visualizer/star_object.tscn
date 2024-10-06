@@ -3,14 +3,30 @@
 [ext_resource type="Texture2D" uid="uid://ctoi0hd23g73" path="res://StarGradient.tres" id="1_2vjn8"]
 [ext_resource type="Script" path="res://star_object.gd" id="1_nke0u"]
 
-[node name="StarObject" type="Control"]
+[node name="StarObject" type="Control" groups=["star"]]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
 script = ExtResource("1_nke0u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(12, 12)
 texture = ExtResource("1_2vjn8")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 710.0
+offset_bottom = 397.0
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
